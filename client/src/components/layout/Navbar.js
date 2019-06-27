@@ -18,12 +18,22 @@ const Navbar = ({ title, icon }) => {
 
   const authLinks = (
     <Fragment>
-      <li>Hello {user && user.name}</li>
+      <li>
+        <Link to="/">
+          <i class="fas fa-home" /> Hello {user && user.name}
+        </Link>
+      </li>
       <li>
         <a onClick={onLogout} href="#!">
           <i className="fas fa-sign-out-alt" />{" "}
           <span className="hide-sm">Logout</span>
         </a>
+      </li>
+      <li>
+        <Link to="/about">
+          <i className="fas fa-info-circle" />{" "}
+          <span className="hide-sm">About</span>
+        </Link>
       </li>
     </Fragment>
   );
@@ -31,10 +41,20 @@ const Navbar = ({ title, icon }) => {
   const guestLinks = (
     <Fragment>
       <li>
-        <Link to="/register">Register</Link>
+        <Link to="/register">
+          <i class="fas fa-edit" /> Register
+        </Link>
       </li>
       <li>
-        <Link to="/login">Login</Link>
+        <Link to="/login">
+          <i className="fas fa-sign-out-alt" /> Login
+        </Link>
+      </li>
+      <li>
+        <Link to="/about">
+          <i className="fas fa-info-circle" />{" "}
+          <span className="hide-sm">About</span>
+        </Link>
       </li>
     </Fragment>
   );
@@ -44,22 +64,7 @@ const Navbar = ({ title, icon }) => {
       <h1>
         <i className={icon} /> {title}
       </h1>
-      <ul>
-        {isAuthenticated
-          ? authLinks
-          : guestLinks /* <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/register">Register</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li> */}
-      </ul>
+      <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
     </div>
   );
 };
