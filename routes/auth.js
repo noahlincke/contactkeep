@@ -2,28 +2,28 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const config = require("config");
+const secret = process.env.JWT_SECRET;
 const auth = require("../middleware/auth");
-const { check, validationResult } = require("express-validator/check");
+const { check, validationResult } = require("express-validator");
 
 const User = require("../models/User");
 
-// @route     GET api/auth
-// @desc      Get logged in user
-// @access    Private
+// @route   GET api/auth
+// @desc    Get logged in user
+// @access  Private
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
-  } catch (err) {
+  } catch (error) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
 });
 
-// @route     POST api/auth
-// @desc      Auth user & get token
-// @access    Public
+// @route   POST api/auth
+// @desc    Auth user and get token
+// @access  Public
 router.post(
   "/",
   [
@@ -37,18 +37,16 @@ router.post(
     }
 
     const { email, password } = req.body;
-
     try {
       let user = await User.findOne({ email });
-
       if (!user) {
-        return res.status(400).json({ msg: "Invalid Credentials" });
+        return res.status(400).json({ msg: "Invalid credentials" });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
-        return res.status(400).json({ msg: "Invalid Credentials" });
+        return res.status(400).json({ msg: "Invalid credentials" });
       }
 
       const payload = {
@@ -59,7 +57,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        secret,
         {
           expiresIn: 360000
         },
@@ -68,7 +66,7 @@ router.post(
           res.json({ token });
         }
       );
-    } catch (err) {
+    } catch (error) {
       console.error(err.message);
       res.status(500).send("Server Error");
     }
