@@ -1,6 +1,5 @@
 import {
   GET_CONTACTS,
-  CLEAR_CONTACTS,
   ADD_CONTACT,
   DELETE_CONTACT,
   SET_CURRENT,
@@ -8,8 +7,9 @@ import {
   UPDATE_CONTACT,
   FILTER_CONTACTS,
   CLEAR_FILTER,
-  CONTACT_ERROR
-} from "../types";
+  CONTACT_ERROR,
+  CLEAR_CONTACTS
+} from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -63,7 +63,7 @@ export default (state, action) => {
       return {
         ...state,
         filtered: state.contacts.filter(contact => {
-          const regex = new RegExp(`${action.payload}`, "gi");
+          const regex = new RegExp(`${action.payload}`, 'gi');
           return contact.name.match(regex) || contact.email.match(regex);
         })
       };
