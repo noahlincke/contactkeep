@@ -1,8 +1,8 @@
-import React, { Fragment, useContext } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import AuthContext from '../../context/auth/authContext';
-import ContactContext from '../../context/contact/contactContext';
+import React, { Fragment, useContext } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import AuthContext from "../../context/auth/authContext";
+import ContactContext from "../../context/contact/contactContext";
 
 const Navbar = ({ title, icon }) => {
   const authContext = useContext(AuthContext);
@@ -18,12 +18,22 @@ const Navbar = ({ title, icon }) => {
 
   const authLinks = (
     <Fragment>
-      <li>Hello {user && user.name}</li>
       <li>
-        <a onClick={onLogout} href='#!'>
-          <i className='fas fa-sign-out-alt' />{' '}
-          <span className='hide-sm'>Logout</span>
+        <Link to="/">
+          <i class="fas fa-home" /> Hello {user && user.name}
+        </Link>
+      </li>
+      <li>
+        <a onClick={onLogout} href="#!">
+          <i className="fas fa-sign-out-alt" />{" "}
+          <span className="hide-sm">Logout</span>
         </a>
+      </li>
+      <li>
+        <Link to="/about">
+          <i className="fas fa-info-circle" />{" "}
+          <span className="hide-sm">About</span>
+        </Link>
       </li>
     </Fragment>
   );
@@ -31,16 +41,26 @@ const Navbar = ({ title, icon }) => {
   const guestLinks = (
     <Fragment>
       <li>
-        <Link to='/register'>Register</Link>
+        <Link to="/register">
+          <i class="fas fa-edit" /> Register
+        </Link>
       </li>
       <li>
-        <Link to='/login'>Login</Link>
+        <Link to="/login">
+          <i className="fas fa-sign-out-alt" /> Login
+        </Link>
+      </li>
+      <li>
+        <Link to="/about">
+          <i className="fas fa-info-circle" />{" "}
+          <span className="hide-sm">About</span>
+        </Link>
       </li>
     </Fragment>
   );
 
   return (
-    <div className='navbar bg-primary'>
+    <div className="navbar bg-primary">
       <h1>
         <i className={icon} /> {title}
       </h1>
@@ -55,8 +75,8 @@ Navbar.propTypes = {
 };
 
 Navbar.defaultProps = {
-  title: 'Contact Keeper',
-  icon: 'fas fa-id-card-alt'
+  title: "Contact Keeper",
+  icon: "fas fa-id-card-alt"
 };
 
 export default Navbar;
